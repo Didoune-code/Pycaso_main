@@ -50,13 +50,13 @@ Save all of the cam1 image (resp cam2) in a folder 'Folder_calibration_cam1' wit
 - Define the calibration dictionnary :
 ```
 calibration_dict = {
-								'cam1_folder' : 'Images_example/left_calibration11',
-								'cam2_folder' : 'Images_example/right_calibration11',
-								'name' : 'micro_calibration',								
-								'saving_folder' : 'results/main_exemple',
-								'ncx' : 16,
-								'ncy' : 12,
-								'pixel_factor' : 10}
+		'cam1_folder' : 'Images_example/left_calibration11',
+		'cam2_folder' : 'Images_example/right_calibration11',
+		'name' : 'micro_calibration',								
+		'saving_folder' : 'results/main_exemple',
+		'ncx' : 16,
+		'ncy' : 12,
+		'pixel_factor' : 10}
 ```
  - Create the list of z plans
 ```
@@ -79,14 +79,14 @@ saving_folder = 'results/main_exemple'
 Lauch the Soloff calibration function in the main.py :
 ```
 Soloff_constants0, Soloff_constants, Mag= Pycaso.Soloff_calibration (z_list,
-																				Soloff_pform,
-																				**calibration_dict)
+								     Soloff_pform,
+								     **calibration_dict)
 ```
 And/Or the Lagrange calibration function in the main.py :
 ```
 Lagrange_constants, Mag= Pycaso.Lagrange_calibration (z_list,
-																		Lagrange_pform,
-Lagrange_constants, Mag= Pycaso.Lagrange_calibration (z_list,																		**calibration_dict)
+						      Lagrange_pform,
+Lagrange_constants, Mag= Pycaso.Lagrange_calibration (z_list,																								      **calibration_dict)
 ```
 The calibration parameters are identified and calibration part is done. For more information about the resolution, see the Hessian detection explaination.
 
@@ -95,11 +95,11 @@ Use the cameras to take some pair of pictures of the coin.
 Save all of the cam1 image (resp cam2) in a folder 'Folder_identification_cam1'. Then, define a DIC dictionnary :
 ```
 DIC_dict = {
-					'cam1_folder' : 'Images_example/left_identification',
-					'cam2_folder' : 'Images_example/right_identification',
-					'name' : 'micro_identification',
-					'saving_folder' : saving_folder,
-					'window' : [[300, 1700], [300, 1700]]}
+	'cam1_folder' : 'Images_example/left_identification',
+	'cam2_folder' : 'Images_example/right_identification',
+	'name' : 'micro_identification',
+	'saving_folder' : saving_folder,
+	'window' : [[300, 1700], [300, 1700]]}
 ```
 
 The identification can start :
@@ -110,11 +110,11 @@ Xcam1_id, Xcam2_id = data.DIC_get_positions(DIC_dict)
 Then use one of the pairs (Xcam1_id[0], Xcam2_id[0]) to create the points on the global referential (x,y,z) (Here show the Soloff method but the Lagrange or Zernike method can be use) :
 ```
 xSoloff_solution = Soloff_identification(Xcam1_id[0],
-																Xcam2_id[0],
-																Soloff_constants0, 
-																Soloff_constants,
-																Soloff_pform,
-																method = 'curve_fit')       
+					 Xcam2_id[0],
+					 Soloff_constants0, 
+					 Soloff_constants,
+					 Soloff_pform,
+					 method = 'curve_fit')       
 xS, yS, zS = xSoloff_solution
 ```
 Now all of the spacial points i are detected (xS[i], yS[i], zS[i]). 
@@ -131,16 +131,16 @@ NB : Here all the points are calculated by Soloff but, if you want to use the AI
 ```
 AI_training_size = 50000
 model = AI_training (X_c1,
-								   X_c2,
-								   xSoloff_solution,
-								   I_training_size = AI_training_size)
+		     X_c2,
+		     xSoloff_solution,
+		     I_training_size = AI_training_size)
 ```
 
 Then, all the points can be calculated here with the AI model :
 ```
 xAI_solution = AI_identification (X_c1,
-													   X_c2,
-													   model)
+			          X_c2,
+			          model)
 xAI, yAI, zAI = xAI_solution
 ```
 Now all of the spacial points i are detected (xAI[i], yAI[i], zAI[i]). 
