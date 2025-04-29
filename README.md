@@ -1,7 +1,7 @@
 # Pycaso
 PYthon module for CAlibration of cameras by SOloff’s method
 
-Pycaso is a python code used to calibrate any pair of cameras using the method of Soloff (or the direct method). This method links detected points X from cameras 1 and 2 to the real position x in the 3D-space. It is divided in two parts :
+Pycaso is a python code used to calibrate any pair of cameras using the method of Soloff (or the direct methods (Lagrange and Zernike)). This method links detected points X from cameras 1 and 2 to the real position x in the 3D-space. It is divided in two parts :
 - Calibration : A lot of coordinates (**X**=(X,Y) and **x**(x,y,z)) are known and a polynomial form P can be estimate for each coordinate X_i = P(**x**)
 - Identification : With a Levenberg-Marcquardt algorithm, it is possible to build new points into the 3D-space using the detected points **X** and the polynomials P (**x** = f(P1(X1), P2(Y1), P3(X2), P4(Y2)) 
 
@@ -67,10 +67,10 @@ for i in range (len(Imgs)) :
     z_list[i] = float(Imgs[i][len(Folder)+ 1:-4])
 ```
 
-- Chose the degrees for Soloff and direct polynomial fitting
+- Chose the degrees for Soloff and Lagrange polynomial fitting
 ```
 Soloff_pform = 332
-direct_polynomial_form = 4
+Lagrange_polynomial_form = 4
 ```
 Create the result folder if not exist
 ```
@@ -82,11 +82,11 @@ Soloff_constants0, Soloff_constants, Mag= Pycaso.Soloff_calibration (z_list,
 																				Soloff_pform,
 																				**calibration_dict)
 ```
-And/Or the direct calibration function in the main.py :
+And/Or the Lagrange calibration function in the main.py :
 ```
-direct_constants, Mag= Pycaso.direct_calibration (z_list,
-																		direct_pform,
-direct_constants, Mag= Pycaso.direct_calibration (z_list,																		**calibration_dict)
+Lagrange_constants, Mag= Pycaso.Lagrange_calibration (z_list,
+																		Lagrange_pform,
+Lagrange_constants, Mag= Pycaso.Lagrange_calibration (z_list,																		**calibration_dict)
 ```
 The calibration parameters are identified and calibration part is done. For more information about the resolution, see the Hessian detection explaination.
 
@@ -107,7 +107,7 @@ First, use the correlation process (default = GCpu_OpticalFlow or disflow) from 
 ```
 Xcam1_id, Xcam2_id = data.DIC_get_positions(DIC_dict)
 ```
-Then use one of the pairs (Xcam1_id[0], Xcam2_id[0]) to create the points on the global referential (x,y,z) (Here show the Soloff method but the direct or Zernike method can be use) :
+Then use one of the pairs (Xcam1_id[0], Xcam2_id[0]) to create the points on the global referential (x,y,z) (Here show the Soloff method but the Lagrange or Zernike method can be use) :
 ```
 xSoloff_solution = Soloff_identification(Xcam1_id[0],
 																Xcam2_id[0],
